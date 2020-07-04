@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'base',
     'analytics',
     'restapi',
-    'jupyter',
 ]
 
 MIDDLEWARE = [
