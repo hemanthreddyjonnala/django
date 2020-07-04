@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('base.urls')),
     path('analytics/', include('analytics.urls')),
     path('restapi/', include('restapi.urls')),
+    path('contact/', include('contact.urls')),
 
     # third party
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
