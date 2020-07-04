@@ -1,0 +1,25 @@
+{% load static %}
+<nav class="navbar navbar-light bg-light">
+    <form class="form-inline" method="post" action="{% url 'price_chart' %}">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="ticker">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <div class="dropdown" style="float:right;">
+        <button class="btn btn-info" id="jupyter"><a  style="color:black;"
+                                        href="{% url 'jupyter-open' %}">Jupter</a></button>
+        <button class="btn btn-info"><a target="_blank" style="color:black;"
+                                        href="{% url 'stocks-screen' %}">Refresh</a></button>
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+            DB Tables
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {% for table in tables %}
+            <a class="dropdown-item" href="#">{{ table }}</a>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</nav>

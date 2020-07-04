@@ -1,0 +1,170 @@
+{% extends "base/home.html" %}
+{% block content %}
+<!--https://simpleisbetterthancomplex.com/tutorial/2020/01/19/how-to-use-chart-js-with-django.html-->
+
+<nav class="navbar navbar-light bg-light"  style="float:right;">
+    <form class="form-inline" method="post" action="{% url 'price_chart' %}" >
+        {% csrf_token %}
+        <label for="days">Days:</label>
+        <input  class="form-control mr-sm-4" type="number" id="days" name="days" value="90">
+        <label for="sample">Sample:</label>
+        <input  class="form-control mr-sm-4" type="number" id="sample" name="sample" value="1">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  name="price_ticker">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <a target= "_blank"  style= "width: 8ch;" href="https://finance.yahoo.com/quote/{{ ticker }}?p={{ ticker }}"><i class="fas fa-home"></i> price </a>
+<a target= "_blank" style= "width: 8ch;" href="https://finance.yahoo.com/chart/{{ ticker }}?p={{ ticker }}"><i class="fas fa-home"></i> chart </a>
+</nav>
+
+
+<div style="width: 100%; float:left;" >
+    <canvas id="price_chart" ></canvas>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+<script>
+    $(function() {
+
+    var $priceChart = $("#price_chart");
+    var ctx2 = $priceChart[0].getContext("2d");
+
+    new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: {{ labels|safe }},
+            datasets: [{label: 'Adj Close', fill: false, pointBackgroundColor:'grey', data: {{ Adj_close|safe }}, yAxisID: 'price'},
+            {label: '{{ span1|safe }}', fill: false, borderColor: 'green' ,pointBackgroundColor:'green', data: {{ EMA1|safe }}, yAxisID: 'price'},
+            {label: '{{ span2|safe }}', fill: false, borderColor: 'red',  pointBackgroundColor:'red', data: {{ EMA2|safe }}, yAxisID: 'price'},
+            {label: 'volume', fill: false, borderColor: 'blue',  pointBackgroundColor:'blue', data: {{ data|safe }}, yAxisID: 'volume'}]
+        },
+        options: {
+            responsive: true,
+            tooltips: {mode: 'index', intersect: false},
+            hover: {mode: 'index', intersect: false},
+            legend: {position: 'top',},
+            title: {display: true, text: '{{ ticker|safe }} Price and volume Chart'},
+            scales: {
+             xAxes: [{gridLines: {color: "rgba(0, 0, 0, 0)"}}],
+             yAxes:[{id: 'price', position:"right"},
+             {id: 'volume', position:"left", ticks: {min: 0,stepSize: 20}}
+             ] },
+
+             plugins: {
+	zoom: {
+		// Container for pan options
+		pan: {
+			// Boolean to enable panning
+			enabled: true,
+
+			// Panning directions. Remove the appropriate direction to disable
+			// Eg. 'y' would only allow panning in the y direction
+			// A function that is called as the user is panning and returns the
+			// available directions can also be used:
+			//   mode: function({ chart }) {
+			//     return 'xy';
+			//   },
+			mode: 'xy',
+
+			rangeMin: {
+				// Format of min pan range depends on scale type
+				x: null,
+				y: null
+			},
+			rangeMax: {
+				// Format of max pan range depends on scale type
+				x: null,
+				y: null
+			},
+
+			// On category scale, factor of pan velocity
+			speed: 20,
+
+			// Minimal pan distance required before actually applying pan
+			threshold: 10,
+
+			// Function called while the user is panning
+			onPan: function({chart}) { console.log(`I'm panning!!!`); },
+			// Function called once panning is completed
+			onPanComplete: function({chart}) { console.log(`I was panned!!!`); }
+		},
+
+		// Container for zoom options
+		zoom: {
+			// Boolean to enable zooming
+			enabled: true,
+
+			// Enable drag-to-zoom behavior
+			drag: true,
+
+			// Drag-to-zoom effect can be customized
+			// drag: {
+			// 	 borderColor: 'rgba(225,225,225,0.3)'
+			// 	 borderWidth: 5,
+			// 	 backgroundColor: 'rgb(225,225,225)',
+			// 	 animationDuration: 0
+			// },
+
+			// Zooming directions. Remove the appropriate direction to disable
+			// Eg. 'y' would only allow zooming in the y direction
+			// A function that is called as the user is zooming and returns the
+			// available directions can also be used:
+			//   mode: function({ chart }) {
+			//     return 'xy';
+			//   },
+			mode: 'xy',
+
+			rangeMin: {
+				// Format of min zoom range depends on scale type
+				x: null,
+				y: null
+			},
+			rangeMax: {
+				// Format of max zoom range depends on scale type
+				x: null,
+				y: null
+			},
+
+			// Speed of zoom via mouse wheel
+			// (percentage of zoom on a wheel event)
+			speed: 0.1,
+
+			// Minimal zoom distance required before actually applying zoom
+			threshold: 2,
+
+			// On category scale, minimal zoom level before actually applying zoom
+			sensitivity: 3,
+
+			// Function called while the user is zooming
+			onZoom: function({chart}) { console.log(`I'm zooming!!!`); },
+			// Function called once zooming is completed
+			onZoomComplete: function({chart}) { console.log(`I was zoomed!!!`); }
+		}
+	}
+}
+        }
+    });
+});
+</script>
+
+
+
+
+
+{% endblock content %}
+
+<!--<div class="row" style="height: 340%; background-color: rgba(150,0,0,0.1);">-->
+<!--    <div class="col-sm">-->
+<!--        One of three columns-->
+<!--    </div>-->
+<!--    <div class="col-sm">-->
+<!--        One of three columns-->
+<!--    </div>-->
+<!--    <div class="col-sm">-->
+<!--        One of three columns-->
+<!--    </div>-->
+<!--</div>-->
