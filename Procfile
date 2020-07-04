@@ -1,1 +1,1 @@
-web: guincorn joy.wsgi --log-file -
+web: gunicorn joy.wsgi --log-file -
