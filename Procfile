@@ -1,1 +1,0 @@
-web: guincorn joy.wsgi --log-file -
