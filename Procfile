@@ -1,1 +1,1 @@
-web: gunicorn joy.wsgi --log-file -
+web: gunicorn joy.wsgi --timeout 3000 --log-file -
