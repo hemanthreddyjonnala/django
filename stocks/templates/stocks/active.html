@@ -1,10 +1,11 @@
 {% extends "base/home.html" %}
 {% block content %}
+{% include 'base/navbar.html' %}
 
 <div class="container">
     <form method="post" action="{% url 'stocks-query' %}">
         {% csrf_token %}
-        <p>query: <input type="text" style="width: 100ch; height: 90px;" name="stocks-search-query">
+        <p><input type="text" style="width: 100ch; height: 100px;" name="stocks-search-query">
             <input type="submit" value="submit"></p>
     </form>
 

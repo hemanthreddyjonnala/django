@@ -2,7 +2,6 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from stocks.models import StockTicker
 from django.core import serializers
-from base.views import tables
 from analytics.models import PriceInfo
 from stocks.views import my_custom_sql
 import datetime as dt
@@ -23,7 +22,6 @@ def get_price_data(ticker, days, sample, span1, span2):
     df['EMA2'] = df['Adj Close'].ewm(span=span2, adjust=False).mean()
     # data = df.to_dict(orient='records')
     data ={'labels':[],'data':[], 'Adj_close':[], 'Open': [], 'EMA1':[], 'EMA2': [], 'span1':f'EMA{span1}','span2':f'EMA{span2}'}
-    data['tables'] = tables
     data['ticker'] = ticker
     for row in df.itertuples():
         data['labels'].append(int(str(row.Index.date().year)+str(row.Index.date().month).zfill(2)+str(row.Index.date().day).zfill(2)))

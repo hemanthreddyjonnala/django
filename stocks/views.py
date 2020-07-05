@@ -163,7 +163,7 @@ class StocksView(View):
 
 
 def get_most_active(request):
-    messages.success(request, 'Latest Results')
+    messages.success(request, 'Previous Run Results')
     data =my_custom_sql(query)
     data['tables'] = tables
     return render(request, 'stocks/active.html', data)

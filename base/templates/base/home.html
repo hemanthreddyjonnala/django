@@ -49,12 +49,11 @@
             <li><a href="{% url 'price_chart' %}"><i class="fas fa-address-card"></i>Analytics</a></li>
             <li><a href="#"><i class="fas fa-project-diagram"></i>Finance</a></li>
             <li><a href="#"><i class="fas fa-project-diagram"></i>portfolio</a></li>
-            <li><a href="#"><i class="fas fa-blog"></i>Blogs</a></li>
             <li><a href="{% url 'contact' %}"><i class="fas fa-address-book"></i>Contact</a></li>
         </ul>
     </div>
     <div class="main_content">
-        {% include 'base/navbar.html' %}
+
         {% include 'includes/messages.html' %}
         {% block content %}{% endblock %}
     </div>
