@@ -23,7 +23,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'joy.settings'
 SECRET_KEY = 'hu5_(@9nv8gahf#^g%h^j8^p_dhidp_g5b&3u!3w%_qvnp-4y)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [ 'pystocks-finance.herokuapp.com', '127.0.0.1']
 

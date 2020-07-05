@@ -13,14 +13,12 @@ from stocks.views import dump_to_db
 from analytics import statements
 
 
-def get_price_data(ticker, days, sample):
+def get_price_data(ticker, days, sample, span1, span2):
     start = dt.datetime.now() - dt.timedelta(days=days)
     now = dt.datetime.now()
     df = pdr.get_data_yahoo(ticker, start, now)
     # df =df.sample(n=int(len(df)/sample))
     df = df.iloc[::sample]
-    span1 = 5
-    span2 = 15
     df['EMA1'] = df['Adj Close'].ewm(span=span1, adjust=False).mean()
     df['EMA2'] = df['Adj Close'].ewm(span=span2, adjust=False).mean()
     # data = df.to_dict(orient='records')
@@ -54,10 +52,18 @@ def price_chart(request):
         sample = int(request.POST['''sample'''])
     except:
         sample = 1
+    try:
+        span1 = int(request.POST['''span1'''])
+    except:
+        span1 = 5
+    try:
+        span2 = int(request.POST['''span2'''])
+    except:
+        span2 = 15
     print(ticker, days, sample)
     ticker = ticker.upper()
     # print(statements.get_statement(ticker))
-    data =get_price_data(ticker, days, sample)
+    data =get_price_data(ticker, days, sample, span1, span2)
     return render(request, 'analytics/analytics.html', data)
     # return JsonResponse(data)
 

@@ -5,11 +5,15 @@
 <nav class="navbar navbar-light bg-light"  style="float:right;">
     <form class="form-inline" method="post" action="{% url 'price_chart' %}" >
         {% csrf_token %}
+        <label for="days">EMA1:</label>
+        <input  class="form-control w-auto" type="number" id="span1" name="span1" value="5">
+        <label for="days">EMA2:</label>
+        <input  class="form-control  w-auto" type="number" id="span2" name="span2" value="15">
         <label for="days">Days:</label>
-        <input  class="form-control mr-sm-4" type="number" id="days" name="days" value="90">
+        <input  class="form-control w-auto" type="number" id="days" name="days" value="90">
         <label for="sample">Sample:</label>
-        <input  class="form-control mr-sm-4" type="number" id="sample" name="sample" value="1">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"  name="price_ticker">
+        <input  class="form-control w-auto" type="number" id="sample" name="sample" value="1">
+        <input class="form-control  w-auto" type="search" placeholder="Search" aria-label="Search"  name="price_ticker">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
     <a target= "_blank"  style= "width: 8ch;" href="https://finance.yahoo.com/quote/{{ ticker }}?p={{ ticker }}"><i class="fas fa-home"></i> price </a>
@@ -17,7 +21,7 @@
 </nav>
 
 
-<div style="width: 100%; float:left;" >
+<div style="width: 95%; float:left;" >
     <canvas id="price_chart" ></canvas>
 </div>
 
