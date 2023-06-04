@@ -79,3 +79,4 @@ whitenoise==5.1.0
 yfinance==0.1.54
 zipp==3.1.0
 zope.interface==5.1.0
+
